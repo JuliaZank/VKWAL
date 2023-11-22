@@ -1,4 +1,3 @@
-
 data class Post(
     val id: Int,
     val ownerId: Int,
@@ -12,12 +11,17 @@ data class Post(
     val canEdit: Boolean,
     val isPinned: Boolean,
     val isFavorite: Boolean,
+    val comments: Comments = Comments(),
 )
 
 object WallService {
     private var posts = emptyArray<Post>()
     private var idPost = 0
 
+    fun clear() {
+        posts = emptyArray()
+        idPost = 0
+    }
 
     fun add(post: Post): Post {
         posts += post.copy(id = ++idPost)
@@ -33,17 +37,17 @@ object WallService {
         }
         return false
     }
+
 }
 
-object Comments {
-    fun add(post: Post): Post {
-        return post
-    }
+data class Comments(
+    val count: Int = 0,
+    val canPost: Boolean = true,
+    val groupsCanPost: Boolean = true,
+    val canClose: Boolean = false,
+    val canOpen: Boolean = false,
+)
 
-    fun commentsCount(count: Int) {
-
-    }
-}
 
 fun main() {
     val post = Post(
